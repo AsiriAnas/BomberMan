@@ -11,5 +11,6 @@ package Controller;
  */
 public class Main {
 int ok= 1;
+int ok2 = 2;
     
 }
