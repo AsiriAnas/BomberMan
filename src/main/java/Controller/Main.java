@@ -4,13 +4,19 @@
  * and open the template in the editor.
  */
 package Controller;
+import Controller.GameInterface;
+
 
 /**
  *
  * @author Anas
  */
 public class Main {
-int ok= 1;
-int ok2 = 2;
     
+    public static void main(String[] args) {
+        GameInterface game = new GameInterface(10, 10);
+        game.affiche();
+        
+        
+    }
 }
