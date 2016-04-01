@@ -10,6 +10,6 @@ package Controller;
  * @author Anas
  */
 public class Main {
-
+int ok= 1;
     
 }
