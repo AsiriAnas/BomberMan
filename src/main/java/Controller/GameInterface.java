@@ -16,7 +16,6 @@ import java.awt.event.KeyEvent;
 public class GameInterface {
 
     
-    private int _tableauJeu [][];
     private Case _tableInterface[][];
     private int _pwidth;
     private int _pheight; 
@@ -102,61 +101,7 @@ public class GameInterface {
             }
         }
                        _tableInterface[_joueur.getPosition_x()][_joueur.getPosition_y()] = new Case(TypeCase.Personnage);
-    }
-    
-    private void intitialiSationTable()
-    {
-        _tableauJeu = new int[_pheight][_pheight];
-        
-        // ligne fond au dessus
-        for(int col = 0;col < _pwidth; col++)
-        {
-            _tableauJeu[0][col] = 1;
-        }
-        // ligne fond en Dessous
-        for(int col = 0;col < _pwidth; col++)
-        {
-            _tableauJeu[_pheight - 1][col] = 1;
-        }
-        //ligne fond gauche 
-        for(int lig = 0;lig < _pheight; lig++)
-        {
-            _tableauJeu[lig][0] = 1;
-        }
-        // ligne fond droit
-        for(int lig = 0;lig < _pheight; lig++)
-        {
-            _tableauJeu[lig][_pwidth-1] = 1;
-        }
-        
-        // ligne du code
-        for(int lig = 1;lig < _pheight - 1; lig++)
-        {
-            for(int col = 1; col < _pwidth - 1; col++)
-            {
-          //      if( _tableauJeu[lig][col] !=  _tableauJeu[_joueur.getPosition_x()][_joueur.getPosition_y()]);
-                {
-                    _tableauJeu[lig][col] = 0 ;
-                }
-            }
-        }
-        
-        // initialysation.
-               _tableauJeu[_joueur.getPosition_x()][_joueur.getPosition_y()] = 9;
-    }
-    
-    public void affiche()
-    {
-        for(int lig = 0; lig < _pheight; lig++ )
-        {
-            for(int col = 0; col<_pwidth; col++)
-            {
-                System.out.print( _tableauJeu[lig][col] + " ");
-            }
-            System.out.println("");
-        }
-    }
-    
+    }    
     public void afficheInterface(){
         for(int lig = 0; lig < _pheight; lig++ )
         {
