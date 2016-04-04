@@ -69,5 +69,31 @@ public class Joueur {
     public void setPosition_y(int _position_y) {
         this._position_y = _position_y;
     }
+    
+    public void setPosition_x(int _position_x, int pmax_X) {
+        System.out.println("Max :" + (pmax_X - 1) );
+        
+        if( _position_x  > pmax_X - 1){
+            System.out.println("Max :" + (pmax_X - 1) );
+            this._position_x = pmax_X - 1;
+        
+        }
+        else if(_position_x  < 0 )
+             this._position_x = 0;
+        else 
+            this._position_x = _position_x;
+    }
+
+    public void setPosition_y(int _position_y, int pmax_Y) {
+        if( _position_y  > pmax_Y - 1){
+         
+            this._position_y = pmax_Y - 1;
+        }
+        else if(_position_y  < 0 )
+             this._position_y = 0;
+        else 
+            this._position_y = _position_y;
+    }
+    
 
 }
