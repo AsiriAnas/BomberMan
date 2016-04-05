@@ -9,16 +9,17 @@ package Controller;
  *
  * @author Donat
  */
-public enum TypeCase {
+public enum ETypeCase {
     Vide("0"),    
     MurIncasable("1"),
     MurCassable("2"),
     Personnage("4"),
-    Explosion("5");
+    Explosion("5"),
+    Bombe("B");
     
     private String _typeTag ;  
       
-    private TypeCase(String ptypeTag) 
+    private ETypeCase(String ptypeTag) 
     {  
          this._typeTag = ptypeTag ;  
     }  

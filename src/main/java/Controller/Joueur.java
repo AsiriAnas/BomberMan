@@ -17,7 +17,9 @@ public class Joueur {
     private String _name;
     private int _position_x;
     private int _position_y;
-    
+    private Bombe _bombe;
+    private boolean _reverse;
+    private int _numberLife ;
     
     public Joueur(int pId , String pName, int pPos_x, int pPos_y)
     {
@@ -25,6 +27,9 @@ public class Joueur {
        this._name = pName;
        this._position_x = pPos_x;
        this._position_y = pPos_y;
+       _bombe = new Bombe();
+       _reverse = false;
+       _numberLife = 3;
     }
     
     public void deplacement(int dep)
@@ -71,12 +76,9 @@ public class Joueur {
     }
     
     public void setPosition_x(int _position_x, int pmax_X) {
-        System.out.println("Max :" + (pmax_X - 1) );
-        
+  
         if( _position_x  > pmax_X - 1){
-            System.out.println("Max :" + (pmax_X - 1) );
             this._position_x = pmax_X - 1;
-        
         }
         else if(_position_x  < 0 )
              this._position_x = 0;

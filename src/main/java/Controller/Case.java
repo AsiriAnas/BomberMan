@@ -10,19 +10,33 @@ package Controller;
  * @author Donat
  */
 public class Case {
-    
-    private TypeCase _type;
 
-    public Case(TypeCase pType){
+    private ETypeCase _type;
+    private int _playerId;
+
+    public Case(ETypeCase pType){
         this._type = pType;
+        this._playerId = 0;
+    }
+    public Case(ETypeCase pType,int pplayerid){
+        this._type = pType;
+        this._playerId = pplayerid;
     }
 
-    public TypeCase getType() {
-        return _type;
+    public ETypeCase getType() {
+        return this._type;
     }
 
-    public void setType(TypeCase _type) {
+    public void setType(ETypeCase _type) {
         this._type = _type;
+    }
+    
+    public int getPlayerId() {
+        return this._playerId;
+    }
+
+    public void setPlayerId(int _playerId) {
+        this._playerId = _playerId;
     }
     
 }

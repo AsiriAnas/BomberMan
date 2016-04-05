@@ -5,10 +5,6 @@
  */
 package Controller;
 
-import java.awt.AWTException;
-import java.awt.Robot;
-import java.awt.event.KeyEvent;
-
 /**
  *
  * @author Donat
@@ -42,6 +38,7 @@ public class GameInterface {
         boolean jeux = true;
         
         switch(keyPressed){
+            
             case "RIGHT" :
                 _joueur.setPosition_y( _joueur.getPosition_y()+1,_pheight );
                 break;
@@ -61,6 +58,7 @@ public class GameInterface {
         this.afficheInterface();
     }   
     
+    
     private void initialiseInterface()
     {
         _tableInterface = new Case[_pwidth][_pwidth];
@@ -68,25 +66,25 @@ public class GameInterface {
         // ligne fond au dessus
         for(int col = 0;col < _pwidth; col++)
         {
-            _tableInterface[0][col] = new Case(TypeCase.MurIncasable);
+            _tableInterface[0][col] = new Case(ETypeCase.MurIncasable);
         }
         
         // ligne fond en Dessous
         for(int col = 0;col < _pwidth; col++)
         {
-            _tableInterface[_pheight - 1][col] = new Case(TypeCase.MurIncasable);
+            _tableInterface[_pheight - 1][col] = new Case(ETypeCase.MurIncasable);
         }
         
         //ligne fond gauche 
         for(int lig = 0;lig < _pheight; lig++)
         {
-            _tableInterface[lig][0] = new Case(TypeCase.MurIncasable);
+            _tableInterface[lig][0] = new Case(ETypeCase.MurIncasable);
         }
         
         // ligne fond droit
         for(int lig = 0;lig < _pheight; lig++)
         {
-            _tableInterface[lig][_pwidth-1] = new Case(TypeCase.MurIncasable);
+            _tableInterface[lig][_pwidth-1] = new Case(ETypeCase.MurIncasable);
         }
         
         // table
@@ -94,15 +92,16 @@ public class GameInterface {
         {
             for(int col = 1; col < _pwidth - 1; col++)
             {
-          //      if( _tableauJeu[lig][col] !=  _tableauJeu[_joueur.getPosition_x()][_joueur.getPosition_y()]);
+             //   if( _tableInterface[lig][col] !=  _tableInterface[_joueur.getPosition_x()][_joueur.getPosition_y()]);
                 {
-                    _tableInterface[lig][col] = new Case(TypeCase.Vide); 
+                    _tableInterface[lig][col] = new Case(ETypeCase.Vide); 
                 }
             }
         }
-                       _tableInterface[_joueur.getPosition_x()][_joueur.getPosition_y()] = new Case(TypeCase.Personnage);
+        _tableInterface[_joueur.getPosition_x()][_joueur.getPosition_y()] = new Case(ETypeCase.Personnage);
     }    
-    public void afficheInterface(){
+    public void afficheInterface()
+    {
         for(int lig = 0; lig < _pheight; lig++ )
         {
             for(int col = 0; col<_pwidth; col++)

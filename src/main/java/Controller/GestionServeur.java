@@ -25,7 +25,7 @@ public class GestionServeur
       // attente en boucle de connexion (bloquant sur ss.accept)
       while (true)
       {
-          //A chaque nouveau client, on on créé un nouveau thread avec le socket créé en param
+        //A chaque nouveau client, on on créé un nouveau thread avec le socket créé en param
         new GestionClientThread(ss.accept());
       }
     }
