@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Controller;
+package Model;
 
+import Model.Bombe;
 import jdk.nashorn.internal.runtime.regexp.joni.constants.StackType;
 
 /**

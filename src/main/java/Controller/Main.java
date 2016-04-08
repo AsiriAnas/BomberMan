@@ -4,15 +4,17 @@
  * and open the template in the editor.
  */
 package Controller;
-import Controller.GameInterface;
+import Model.Joueur;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import javafx.application.Application;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -55,29 +57,36 @@ public class Main extends Application{
         
         Application.launch(Main.class, args);
     }
-
+    
+   
     @Override
-    public void start(Stage primaryStage){
+    public void start(Stage primaryStage) throws Exception {
         
-    primaryStage.setTitle("Hello World");
-    BorderPane root = new BorderPane();
-    Scene scene = new Scene(root, 380, 150, Color.GREEN);
+    Parent root = FXMLLoader.load(getClass().getResource("/fxml/FXMLView.fxml"));
+    primaryStage.setTitle("Bomber Woman");
     
-    Joueur joueur = new Joueur(8, "Donat", 5, 5);
-    final GameInterface game = new GameInterface(10, 10,joueur);
+    Scene scene = new Scene(root);
     
+    // tu t'en fou dureste
+    /****/
+    Joueur joueur = new Joueur(545158, "Donat", 5, 5);
+    final GameBoard game = new GameBoard(10, 10,joueur);
+    // game.getTableInterface();  // pour marie
+    /***/
    
     scene.setOnKeyPressed(new EventHandler<KeyEvent>(){
-            public void handle(KeyEvent ke){
-                System.out.println("Key pressed : " + ke.getCode());
-                game.game( ke.getCode().toString() );
-            }
+          public void handle(KeyEvent ke){
+          
+              System.out.println("Key pressed : " + ke.getCode());
+              game.game( ke.getCode().toString() );
+              
+          }
         });
 
-   
-   primaryStage.setScene(scene);
+    primaryStage.setScene(scene);
         
-        primaryStage.show();
+    primaryStage.show();
+    
     }
     
 }
