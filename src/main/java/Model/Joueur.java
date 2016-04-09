@@ -5,8 +5,7 @@
  */
 package Model;
 
-import Model.Bombe;
-import jdk.nashorn.internal.runtime.regexp.joni.constants.StackType;
+import java.util.*;
 
 /**
  *
@@ -18,24 +17,28 @@ public class Joueur {
     private String _name;
     private int _position_x;
     private int _position_y;
-    private Bombe _bombe;
+    private List<Bombe> _bombes;
     private boolean _reverse;
     private int _numberLife ;
     
-    public Joueur(int pId , String pName, int pPos_x, int pPos_y)
+    public Joueur(int pId , int pPos_x, int pPos_y)
     {
        this._id = pId;
-       this._name = pName;
        this._position_x = pPos_x;
        this._position_y = pPos_y;
-       _bombe = new Bombe();
+       _bombes = new ArrayList<Bombe>();
+       _bombes.add(new Bombe(1));
        _reverse = false;
        _numberLife = 3;
     }
     
-    public void deplacement(int dep)
+    public void deplacementEnX(int dep)
     {
         this._position_x += dep;
+    }
+    
+    public void addBombe(int pRange){
+        _bombes.add(new Bombe(pRange));
     }
     
     public void deplacementEnY(int dep)
@@ -43,6 +46,13 @@ public class Joueur {
         this._position_y += dep;
     }
     
+    public void baisserVie(){
+        this._numberLife--;
+    }
+    
+    public void augmenter(){
+        this._numberLife++;
+    }
     
     public int getId() {
         return _id;
@@ -76,26 +86,17 @@ public class Joueur {
         this._position_y = _position_y;
     }
     
-    public void setPosition_x(int _position_x, int pmax_X) {
-  
-        if( _position_x  > pmax_X - 1){
-            this._position_x = pmax_X - 1;
+    public boolean poserBombe(){
+        boolean possible= false;
+        for(Bombe b: _bombes){
+            if(b.isPosed()==false){
+                //System.out.println("on en a une");
+               b.poser(_position_x, _position_y);
+               possible=true;
+               break;
+            }
         }
-        else if(_position_x  < 0 )
-             this._position_x = 0;
-        else 
-            this._position_x = _position_x;
-    }
-
-    public void setPosition_y(int _position_y, int pmax_Y) {
-        if( _position_y  > pmax_Y - 1){
-         
-            this._position_y = pmax_Y - 1;
-        }
-        else if(_position_y  < 0 )
-             this._position_y = 0;
-        else 
-            this._position_y = _position_y;
+        return possible;
     }
     
 
