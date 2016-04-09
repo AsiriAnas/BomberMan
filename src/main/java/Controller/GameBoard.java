@@ -5,26 +5,20 @@
  */
 package Controller;
 
-import Model.Case;
-import Model.ETypeCase;
-import Model.Joueur;
-import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
+import Model.*;
+import java.io.IOException;
+import java.io.Serializable;
+import java.util.*;
 
 /**
  *
  * @author Donat
  */
-public class GameBoard {
-
+public class GameBoard implements Serializable{
     
-    private Case _tableInterface[][];
+    public Case _tableInterface[][];
     private int _pwidth;
     private int _pheight; 
-    private Joueur _joueur;
-    private Timer _timerBonus;
-
     /**
      *
      * @param pWidth
@@ -32,38 +26,29 @@ public class GameBoard {
      * @param pJouer
      */
     
-    public GameBoard(int pWidth, int pHeight, Joueur pJouer)
+    public GameBoard(int pWidth, int pHeight)
     {
         this._pwidth = pWidth;
-        this._pheight = pHeight;
-        this._joueur = pJouer;
-        
-        this._timerBonus = new Timer();
-        
+        this._pheight = pHeight;      
         this.initialiseInterface();
         this.afficheInterface();
     }
-    public GameBoard(int pwidth, int pheight)
-    {
-        this._pwidth = pwidth;
-        this._pheight = pheight;
-        this.initialiseInterface();
-    }
+
     
     private void addBonus()
     {
         
-        // Bonus alonge la portee de la bombe (+1)
-
-        _timerBonus.schedule( new TimerTask() {
-        @Override
-        public void run() {
-            
-            
-            
-            
-        }
-      }, 10000);
+//        // Bonus alonge la portee de la bombe (+1)
+//
+//        _timerBonus.schedule( new TimerTask() {
+//        @Override
+//        public void run() {
+//            
+//            
+//            
+//            
+//        }
+//      }, 10000);
     }
     private void addBonusType(ETypeCase type)
     {
@@ -91,83 +76,101 @@ public class GameBoard {
            
     }
     
-    public void game(String keyPressed )
+    public boolean game(String keyPressed )
     {
-        boolean jeux = true;
-        
+        boolean changement = false;
+        Bombe bombe; 
         switch(keyPressed){
             
             case "RIGHT" :
                 
                 System.out.println("Right");
                 
-                if( _tableInterface[_joueur.getPosition_x()][_joueur.getPosition_y()+1].getType() == ETypeCase.Vide
-                    || _tableInterface[_joueur.getPosition_x()][_joueur.getPosition_y()+1].getType() == ETypeCase.Bombe  )
+                if(_tableInterface[SerThread._joueur.getPosition_x()][SerThread._joueur.getPosition_y()+1].getType() == ETypeCase.Vide)
                 {
                     System.out.println("Le next is vide");
-                    _joueur.setPosition_y( _joueur.getPosition_y()+1,_pheight);
+                    deplacerJoueur(0,1);
+                    changement = true;
                 }
                 else
                 {
                     System.out.println("Le next is not vide");
-                    _joueur.setPosition_y( _joueur.getPosition_y(),_pheight );
                 }
                 
                 break;
             case "LEFT" : 
                  
-                 if( _tableInterface[_joueur.getPosition_x()][_joueur.getPosition_y()-1].getType() == ETypeCase.Vide
-                    || _tableInterface[_joueur.getPosition_x()][_joueur.getPosition_y()-1].getType() == ETypeCase.Bombe  )
+                 if( _tableInterface[SerThread._joueur.getPosition_x()][SerThread._joueur.getPosition_y()-1].getType() == ETypeCase.Vide)
                 {
                     System.out.println("Le next is vide");
-                    _joueur.setPosition_y( _joueur.getPosition_y()-1,_pheight);
+                    deplacerJoueur(0,-1);
+                    changement = true;
                 }
                 else
                 {
                     System.out.println("Le next is not vide");
-                    _joueur.setPosition_y( _joueur.getPosition_y(),_pheight );
                 }
                  
                 break;
             case "UP" : 
-                if( _tableInterface[_joueur.getPosition_x()-1][_joueur.getPosition_y()].getType() == ETypeCase.Vide
-                    || _tableInterface[_joueur.getPosition_x()-1][_joueur.getPosition_y()].getType() == ETypeCase.Bombe  )
+                if( _tableInterface[SerThread._joueur.getPosition_x()-1][SerThread._joueur.getPosition_y()].getType() == ETypeCase.Vide)
                 {
                     System.out.println("Le next is vide");
-                    _joueur.setPosition_x( _joueur.getPosition_x()-1,_pwidth);
+                    deplacerJoueur(-1,0);
+                    changement = true;
                 }
                 else
                 {
                     System.out.println("Le next is not vide");
-                    _joueur.setPosition_x( _joueur.getPosition_x(),_pwidth );
                 }
                   
                 break;
             case "DOWN" : 
                  
-                if( _tableInterface[_joueur.getPosition_x()+1][_joueur.getPosition_y()].getType() == ETypeCase.Vide
-                    || _tableInterface[_joueur.getPosition_x()+1][_joueur.getPosition_y()].getType() == ETypeCase.Bombe  )
+                if( _tableInterface[SerThread._joueur.getPosition_x()+1][SerThread._joueur.getPosition_y()].getType() == ETypeCase.Vide)
                 {
                     System.out.println("Le next is vide");
-                    _joueur.setPosition_x( _joueur.getPosition_x()+1,_pwidth);
+                    deplacerJoueur(1,0);
+                    changement = true;
                 }
                 else
                 {
                     System.out.println("Le next is not vide");
-                    _joueur.setPosition_x( _joueur.getPosition_x(),_pwidth );
                 }
 
                 break;
-        }
+                
+            case "SPACE" : 
+                 System.out.println("Tic Tac");
+                if(SerThread._joueur.poserBombe()) changement = true;
+                break;
+        }     
+       // this.addBonus();
+       // this.initialiseInterface();
+        //if(changement) this.afficheInterface();
         
-        this.addBonus();
-        this.initialiseInterface();
-        this.afficheInterface();
-    }   
+        return(changement);
+    }
     
+
     
+        public void deplacerJoueur(int pDepX, int pDepY){
+            
+            if( _tableInterface[SerThread._joueur.getPosition_x()][SerThread._joueur.getPosition_y()].getType()!= ETypeCase.Bombe){
+               _tableInterface[SerThread._joueur.getPosition_x()][SerThread._joueur.getPosition_y()]= new Case(ETypeCase.Vide); 
+            } 
+             _tableInterface[SerThread._joueur.getPosition_x()][SerThread._joueur.getPosition_y()].setPlayerId(0);
+            _tableInterface[SerThread._joueur.getPosition_x()+pDepX][SerThread._joueur.getPosition_y()+pDepY] = new Case(ETypeCase.Personnage, SerThread._joueur.getId());
+            if(pDepX!=0) SerThread._joueur.deplacementEnX(pDepX);
+            if(pDepY!=0) SerThread._joueur.deplacementEnY(pDepY);
+            
+            
+        }
+    
+    //Si on a le temps, on récupérera le tableau d'un fichier txt
     private void initialiseInterface()
     {
+        //On créé le tableau
         _tableInterface = new Case[_pwidth][_pwidth];
         
         // ligne fond au dessus
@@ -175,40 +178,32 @@ public class GameBoard {
         {
             _tableInterface[0][col] = new Case(ETypeCase.MurIncasable);
         }
-        
         // ligne fond en Dessous
         for(int col = 0;col < _pwidth; col++)
         {
             _tableInterface[_pheight - 1][col] = new Case(ETypeCase.MurIncasable);
-        }
-        
-        //ligne fond gauche 
-        for(int lig = 0;lig < _pheight; lig++)
-        {
-            _tableInterface[lig][0] = new Case(ETypeCase.MurIncasable);
-        }
-        
-        // ligne fond droit
-        for(int lig = 0;lig < _pheight; lig++)
-        {
-            _tableInterface[lig][_pwidth-1] = new Case(ETypeCase.MurIncasable);
-        }
-        
+        }       
         // table
         for(int lig = 1;lig < _pheight - 1; lig++)
         {
-            for(int col = 1; col < _pwidth - 1; col++)
+            for(int col = 0; col < _pwidth; col++)
             {
-             //   if( _tableInterface[lig][col] !=  _tableInterface[_joueur.getPosition_x()][_joueur.getPosition_y()]);
-                {
+                if(col==0 || col == _pwidth - 1){
+                    _tableInterface[lig][col] = new Case(ETypeCase.MurIncasable);
+                }
+                else if (col % 2 == 0 && lig % 2 == 0) {
+                    
+                    _tableInterface[lig][col] = new Case(ETypeCase.MurIncasable);
+                }
+                else{
                     _tableInterface[lig][col] = new Case(ETypeCase.Vide); 
+                }
+                //On place aléatoirement les murs cassables
+                if(_tableInterface[lig][col].getType() == ETypeCase.Vide && (Math.random()*2>1)){
+                    _tableInterface[lig][col] = new Case(ETypeCase.MurCassable); 
                 }
             }
         }
-
-        _tableInterface[5][8] = new Case(ETypeCase.Personnage);
-        _tableInterface[_joueur.getPosition_x()][_joueur.getPosition_y()] = new Case(ETypeCase.Personnage);
-
     }    
     public void afficheInterface()
     {
@@ -221,5 +216,37 @@ public class GameBoard {
             System.out.println("");
         }
     }
-            
+     
+    public int[] placerJoueur(int pIndex){
+        int[] _posJoueur = new int[2];
+        boolean pose=false;
+        for(int lig = 1; lig < _pheight - 1; lig++ )
+        {
+            for(int col = 1; col<_pwidth - 1; col++)
+            {
+                if(verifierPlace(lig, col) && pose == false){
+                    _tableInterface[lig][col] = new Case(ETypeCase.Personnage, pIndex);
+                    _posJoueur[0]=lig;
+                    _posJoueur[1]=col;
+                    pose=true;
+                }
+            }
+        } 
+        afficheInterface();
+        return _posJoueur;
+    }
+    
+    public boolean verifierPlace(int lig, int col){
+        boolean test= false;
+        
+        //On vérifie si la case est vide et s'il y a de l'espace pour poser une première bombe sans mourir
+        if(_tableInterface[lig][col].getType() == ETypeCase.Vide &&
+       ((_tableInterface[lig+1][col].getType() == ETypeCase.Vide &&_tableInterface[lig][col+1].getType() == ETypeCase.Vide)||
+        (_tableInterface[lig+1][col].getType() == ETypeCase.Vide &&_tableInterface[lig][col-1].getType() == ETypeCase.Vide)||
+        (_tableInterface[lig-1][col].getType() == ETypeCase.Vide &&_tableInterface[lig][col+1].getType() == ETypeCase.Vide)||
+        (_tableInterface[lig-1][col].getType() == ETypeCase.Vide &&_tableInterface[lig][col-1].getType() == ETypeCase.Vide))){
+            test=true;
+        }
+        return test;
+    }
 }
