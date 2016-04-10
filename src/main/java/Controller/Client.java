@@ -27,14 +27,12 @@ public class Client extends Application{
     //Les canaux pour échanger avec le serveur
     protected static ObjectOutputStream _canalSortie;
     protected static ObjectInputStream _canalEntree;
-    public static GameBoard boardClient;
-    //Les objets suivants seront accessible par toutes les classes
-    
-    public static Joueur joueur;
-    private static int idJoueur;
+    public static GameBoard _boardClient;
+    public static Joueur _joueur;
     
    
     public static void main(String[] args) throws ClassNotFoundException {
+        //On créé la socket qui sera liée à celle du serveur
         Socket socket;
         try {
             //On se connecte au serveur
@@ -43,19 +41,20 @@ public class Client extends Application{
             //On instancie les canaux
             _canalSortie=new ObjectOutputStream(socket.getOutputStream());
             _canalEntree=new ObjectInputStream(socket.getInputStream());
-            //On récupère le tableau de jeu et l'id du joueur
-            boardClient = (GameBoard)_canalEntree.readObject();
-            idJoueur = (int)_canalEntree.readObject();
-            
-            boardClient.afficheInterface();
+            //On récupère le tableau de jeu et le joueur
+            _boardClient = (GameBoard)_canalEntree.readObject();
+            _joueur = (Joueur)_canalEntree.readObject();
+            //On affiche ce tableau
+            _boardClient.afficheInterface();
             
         //Thread qui va écouter le serveur
         Thread ListenerThread = new Thread(new Runnable() {
             public void run() {
                 try {
+                    //il tourne en boucle attendant un éventuel changement
                     while (true) {
-                        boardClient = (GameBoard)_canalEntree.readObject();
-                        boardClient.afficheInterface();
+                        _boardClient = (GameBoard)_canalEntree.readObject();
+                        _boardClient.afficheInterface();
                     }
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
@@ -87,7 +86,7 @@ public class Client extends Application{
     //Cette partie gère l'interaction avec l'utilisateur
     scene.setOnKeyPressed(new EventHandler<KeyEvent>(){
         public void handle(KeyEvent key){
-            //On envoie le code de la touche appuyée
+            //On envoie le code de la touche appuyée au serveur
             try {
                 _canalSortie.writeObject(key.getCode().toString());
             } catch (IOException ioe){
@@ -97,15 +96,16 @@ public class Client extends Application{
     });    
     stage.setScene(scene);  
     stage.show();
+    //Si le joueur quitte le jeu, on envoie au serveur la commande QUIT pour stoper la connexion
     stage.setOnCloseRequest(
-        new EventHandler<WindowEvent>() {
-            public void handle(WindowEvent we) {
-                try {
-                    _canalSortie.writeObject("QUIT");
-                } catch (IOException ioe){
-                    ioe.printStackTrace();
-                }
-          }
+    new EventHandler<WindowEvent>() {
+        public void handle(WindowEvent we) {
+            try {
+                _canalSortie.writeObject("QUIT");
+            } catch (IOException ioe){
+                ioe.printStackTrace();
+            }
+        }
       });
     
     }

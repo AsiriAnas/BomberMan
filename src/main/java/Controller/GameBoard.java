@@ -16,6 +16,7 @@ import java.util.*;
  */
 public class GameBoard implements Serializable{
     
+    //Tableau représentant le plateau de jeu
     public Case _tableInterface[][];
     private int _pwidth;
     private int _pheight; 
@@ -26,6 +27,7 @@ public class GameBoard implements Serializable{
      * @param pJouer
      */
     
+    //Constructeur initialisant le tableau avec les mur incassables et cassables
     public GameBoard(int pWidth, int pHeight)
     {
         this._pwidth = pWidth;
@@ -76,72 +78,73 @@ public class GameBoard implements Serializable{
            
     }
     
+    //Méthode gèrant les comandes de jeu et appelant les méthodes adéguates
+    //La méthode renvoie true si un changement a été fait sur le tableau
     public boolean game(String keyPressed )
-    {
+    { 
         boolean changement = false;
-        Bombe bombe; 
         switch(keyPressed){
             
             case "RIGHT" :
-                
-                System.out.println("Right");
-                
+                //Si la case ciblée est vide
                 if(_tableInterface[SerThread._joueur.getPosition_x()][SerThread._joueur.getPosition_y()+1].getType() == ETypeCase.Vide)
                 {
-                    System.out.println("Le next is vide");
+                    System.out.println("Depl droite");
                     deplacerJoueur(0,1);
                     changement = true;
                 }
                 else
                 {
-                    System.out.println("Le next is not vide");
+                    System.out.println("Droite occupée");
                 }
                 
                 break;
+                
             case "LEFT" : 
-                 
+                 //Si la case ciblée est vide
                  if( _tableInterface[SerThread._joueur.getPosition_x()][SerThread._joueur.getPosition_y()-1].getType() == ETypeCase.Vide)
                 {
-                    System.out.println("Le next is vide");
+                    System.out.println("Depl gauche");
                     deplacerJoueur(0,-1);
                     changement = true;
                 }
                 else
                 {
-                    System.out.println("Le next is not vide");
+                    System.out.println("Gauche occupée");
                 }
                  
                 break;
-            case "UP" : 
+            case "UP" :
+                //Si la case ciblée est vide
                 if( _tableInterface[SerThread._joueur.getPosition_x()-1][SerThread._joueur.getPosition_y()].getType() == ETypeCase.Vide)
                 {
-                    System.out.println("Le next is vide");
+                    System.out.println("Depl haut");
                     deplacerJoueur(-1,0);
                     changement = true;
                 }
                 else
                 {
-                    System.out.println("Le next is not vide");
+                    System.out.println("Haut occupé");
                 }
                   
                 break;
             case "DOWN" : 
-                 
+                //Si la case ciblée est vide
                 if( _tableInterface[SerThread._joueur.getPosition_x()+1][SerThread._joueur.getPosition_y()].getType() == ETypeCase.Vide)
                 {
-                    System.out.println("Le next is vide");
+                    System.out.println("Depl bas");
                     deplacerJoueur(1,0);
                     changement = true;
                 }
                 else
                 {
-                    System.out.println("Le next is not vide");
+                    System.out.println("Bas occupé");
                 }
 
                 break;
                 
             case "SPACE" : 
-                 System.out.println("Tic Tac");
+                System.out.println("Tic Tac");
                 if(SerThread._joueur.poserBombe()) changement = true;
                 break;
         }     
@@ -153,19 +156,20 @@ public class GameBoard implements Serializable{
     }
     
 
-    
-        public void deplacerJoueur(int pDepX, int pDepY){
-            
-            if( _tableInterface[SerThread._joueur.getPosition_x()][SerThread._joueur.getPosition_y()].getType()!= ETypeCase.Bombe){
-               _tableInterface[SerThread._joueur.getPosition_x()][SerThread._joueur.getPosition_y()]= new Case(ETypeCase.Vide); 
-            } 
-             _tableInterface[SerThread._joueur.getPosition_x()][SerThread._joueur.getPosition_y()].setPlayerId(0);
-            _tableInterface[SerThread._joueur.getPosition_x()+pDepX][SerThread._joueur.getPosition_y()+pDepY] = new Case(ETypeCase.Personnage, SerThread._joueur.getId());
-            if(pDepX!=0) SerThread._joueur.deplacementEnX(pDepX);
-            if(pDepY!=0) SerThread._joueur.deplacementEnY(pDepY);
-            
-            
-        }
+    //Méthode déplaçant le joueur, sur le tableau et dans l'objet joueur
+    public void deplacerJoueur(int pDepX, int pDepY){
+
+        //S'il a posé une bombe au moment du déplacement, on doit garder la bombe sur le tableau
+        if( _tableInterface[SerThread._joueur.getPosition_x()][SerThread._joueur.getPosition_y()].getType()!= ETypeCase.Bombe){
+           _tableInterface[SerThread._joueur.getPosition_x()][SerThread._joueur.getPosition_y()]= new Case(ETypeCase.Vide); 
+        } 
+         _tableInterface[SerThread._joueur.getPosition_x()][SerThread._joueur.getPosition_y()].setPlayerId(0);
+        _tableInterface[SerThread._joueur.getPosition_x()+pDepX][SerThread._joueur.getPosition_y()+pDepY] = new Case(ETypeCase.Personnage, SerThread._joueur.getId());
+        if(pDepX!=0) SerThread._joueur.deplacementEnX(pDepX);
+        if(pDepY!=0) SerThread._joueur.deplacementEnY(pDepY);
+
+
+    }
     
     //Si on a le temps, on récupérera le tableau d'un fichier txt
     private void initialiseInterface()
@@ -204,7 +208,9 @@ public class GameBoard implements Serializable{
                 }
             }
         }
-    }    
+    }   
+    
+    //Méthode affichant le tableau dans la console
     public void afficheInterface()
     {
         for(int lig = 0; lig < _pheight; lig++ )
@@ -217,9 +223,11 @@ public class GameBoard implements Serializable{
         }
     }
      
+    //Méthode plaçant le joueur créé dans le tableau
     public int[] placerJoueur(int pIndex){
         int[] _posJoueur = new int[2];
         boolean pose=false;
+        //on parcourt le tableau à la recherche de place libre
         for(int lig = 1; lig < _pheight - 1; lig++ )
         {
             for(int col = 1; col<_pwidth - 1; col++)
@@ -236,6 +244,8 @@ public class GameBoard implements Serializable{
         return _posJoueur;
     }
     
+    //Cett méthode si la position proposée dispose d'un espace suffisant pour poser une bombe sans danger
+    //Pour cela, on vérifie si l'espace est au moins en forme de L pour se cacher
     public boolean verifierPlace(int lig, int col){
         boolean test= false;
         

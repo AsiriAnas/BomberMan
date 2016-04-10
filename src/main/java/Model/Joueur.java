@@ -86,10 +86,14 @@ public class Joueur {
         this._position_y = _position_y;
     }
     
+    //Méthode posant la bombe du joueur
+    //Elle renvoie true s'il possède une bombe
     public boolean poserBombe(){
         boolean possible= false;
+        //on vérifie la liste de ses bombes s'il possède une bombe valide
         for(Bombe b: _bombes){
             if(b.isPosed()==false){
+                //Si oui, on appelle la méthode la bombe trouvée
                 //System.out.println("on en a une");
                b.poser(_position_x, _position_y);
                possible=true;
