@@ -6,8 +6,11 @@
 <?import javafx.scene.control.*?>
 
 
-<AnchorPane fx:id="anchropane" style="-fx-background-color: GRAY;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"fx:controller="View.FXMLDocumentController">
-  
-      <GridPane fx:id="gridpane" prefHeight="394.0" prefWidth="600.0"/>
+<AnchorPane fx:id="anchorpane"  xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.FXMLDocumentController">
+  <children>
+      <GridPane fx:id="gridpane" prefHeight="394.0" prefWidth="600.0">
+      </GridPane>
+  </children>
+      
  
 </AnchorPane>

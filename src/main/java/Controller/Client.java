@@ -5,10 +5,13 @@
  */
 package Controller;
 import Model.Joueur;
+import View.FXMLDocumentController;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.URL;
+import java.util.ResourceBundle;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -56,6 +59,7 @@ public class Client extends Application{
                     while (true) {
                         boardClient = (GameBoard)_canalEntree.readObject();
                         boardClient.afficheInterface();
+                        
                     }
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
@@ -77,7 +81,7 @@ public class Client extends Application{
     public void start(Stage stage) throws Exception {
         
     //On créé l'interface graphique
-    Parent root = FXMLLoader.load(getClass().getResource("/fxml/FXMLView.fxml"));
+    Parent root = FXMLLoader.load(getClass().getResource("/fxml/FXMLInterface.fxml"));
     stage.setTitle("Bomber Woman");
     //Le joueur est créé à partir de l'id reçu
     //joueur = new Joueur(idJoueur, 5, 5);   
@@ -109,5 +113,6 @@ public class Client extends Application{
       });
     
     }
+
     
 }

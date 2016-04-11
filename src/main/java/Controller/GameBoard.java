@@ -33,8 +33,11 @@ public class GameBoard implements Serializable{
         this.initialiseInterface();
         this.afficheInterface();
     }
-
     
+    public Case[][] getTableInterface()
+    {
+        return _tableInterface;
+    }
     private void addBonus()
     {
         

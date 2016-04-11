@@ -69,8 +69,7 @@ public class SerThread implements Runnable
                         System.out.println(commande);
                         if(GestionServeur._boardServeur.game(commande)){
                          _serveur.envoyer();
-                        }
-                    }
+                        }                    }
                     System.out.println("Joueur n°" + _index + " a quitté le jeu");
                     _socket.close();
                     

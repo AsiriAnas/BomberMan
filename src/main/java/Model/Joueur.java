@@ -31,6 +31,8 @@ public class Joueur {
        _reverse = false;
        _numberLife = 3;
     }
+
+  
     
     public void deplacementEnX(int dep)
     {

@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package View;
-import Controller.GameBoard;
+import Controller.*;
 import Model. *;
 
 
@@ -15,6 +15,7 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 
 import javafx.scene.layout.GridPane;
 
@@ -27,43 +28,55 @@ import javafx.scene.layout.GridPane;
 public class FXMLDocumentController implements Initializable {
    
 @FXML private GridPane gridpane;
-Label casemap= new Label();
+@FXML private AnchorPane anchorpane;
 //Joueur joueur = new Joueur(545158, "Donat", 5, 5);
-//final GameBoard game = new GameBoard(10, 10,joueur);
-public Case _tableInterface[][];
+GameBoard game = new GameBoard(10, 10);
+//public Case _tableInterface[][];
 private int _pwidth;
 private int _pheight; 
 
 
 
-public  void display_terrain(_tableInterface[][])
+public  void displayTerrain( )
 {
-   for(int lig = 1; lig < _pwidth; lig++ )
+    Case [][] tableInterface = Client.boardClient.getTableInterface(); // recuperation table 
+   
+    for(int lig = 0; lig < 10; lig++ )
         {
-            for( int col = 1; col< _pheight; col++)
+            for( int col = 0; col< 10; col++)
                 
             {
-                int casee= _tableInterface[lig][col]
-                  
-                           switch(casee)
-                    {
-                        case    1:
-                           gridpane.setStyle("-fx-background-color: black");
-                        case    2:
-                            gridpane.setStyle("-fx-background-color: black");
-                        case    3:
-                            gridpane.setStyle("-fx-background-color: black");
-                        case    4:
-                            gridpane.setStyle("-fx-background-color: black");
-                        
-                        break;
-                       
-                    }
-                           gridpane.add(casemap, col, _pwidth);
+                Label casemap= new Label();
+                Case casee = tableInterface[lig][col];
+     
+                if( casee.getType().equals(ETypeCase.Bombe) )
+                {
+                    casemap.setStyle("-fx-background-color: black");
+                }
+                else if( casee.getType().equals(ETypeCase.MurCassable) )
+                {
+                    casemap.setStyle("-fx-background-color: grey");
+                }
+                else if( casee.getType().equals(ETypeCase.Vide) ) 
+                {
+                    casemap.setStyle("-fx-background-color: yellow");
+                }
+                else if( casee.getType().equals(ETypeCase.MurIncasable) ) 
+                {
+                    casemap.setStyle("-fx-background-color: red");
+                }
+                else if( casee.getType().equals(ETypeCase.Personnage) ) 
+                {
+                    casemap.setStyle("-fx-background-color: green");
+                }
+                casemap.setMinHeight(35);
+                casemap.setMinWidth(35);
+                casemap.setText("");
+                 gridpane.add(casemap, col, lig);
                
- 
             }
-            
+                
+           
            
        
     }    
@@ -72,6 +85,7 @@ public  void display_terrain(_tableInterface[][])
        @Override
     public void initialize(URL url, ResourceBundle rb) {
       //afficheInterface();
+        displayTerrain();
     }
 
 }
