@@ -28,19 +28,24 @@ public class FXMLDocumentController implements Initializable {
    
 @FXML private GridPane gridpane;
 Label casemap= new Label();
-Joueur joueur = new Joueur(545158, "Donat", 5, 5);
-final GameBoard game = new GameBoard(10, 10,joueur);
-private Case _tableInterface[][];
+//Joueur joueur = new Joueur(545158, "Donat", 5, 5);
+//final GameBoard game = new GameBoard(10, 10,joueur);
+public Case _tableInterface[][];
+private int _pwidth;
+private int _pheight; 
 
 
 
-/*public  void    display_terrain(GameBoard game)
+public  void display_terrain(_tableInterface[][])
 {
-   for(int lig = 0; lig < 30; lig++ )
+   for(int lig = 1; lig < _pwidth; lig++ )
         {
-            for(int col = 0; col< 30; col++)
+            for( int col = 1; col< _pheight; col++)
+                
             {
-                            switch(_tableInterface[lig][col])
+                int casee= _tableInterface[lig][col]
+                  
+                           switch(casee)
                     {
                         case    1:
                            gridpane.setStyle("-fx-background-color: black");
@@ -54,20 +59,19 @@ private Case _tableInterface[][];
                         break;
                        
                     }
-         
-                   gridpane.getChildren().addAll(casemap);
+                           gridpane.add(casemap, col, _pwidth);
+               
  
             }
             
            
        
     }    
-            }*/
+            }
            
        @Override
     public void initialize(URL url, ResourceBundle rb) {
-       // game.getTableInterface(); 
-  
+      //afficheInterface();
     }
 
 }
