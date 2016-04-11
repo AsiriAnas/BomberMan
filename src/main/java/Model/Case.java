@@ -5,11 +5,13 @@
  */
 package Model;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Donat
  */
-public class Case {
+public class Case implements Serializable{
 
     private ETypeCase _type;
     private int _playerId;
@@ -18,9 +20,9 @@ public class Case {
         this._type = pType;
         this._playerId = 0;
     }
-    public Case(ETypeCase pType,int pplayerid){
+    public Case(ETypeCase pType,int pPlayerid){
         this._type = pType;
-        this._playerId = pplayerid;
+        this._playerId = pPlayerid;
     }
 
     public ETypeCase getType() {
