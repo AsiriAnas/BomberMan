@@ -1,21 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.effect.*?>
-<?import javafx.scene.canvas.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import java.net.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="600" prefWidth="600" style="-fx-background-color: GRAY;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.FXMLInterfaceController">
-    <children>
-       
-         <Canvas fx:id="mainCanvas" height="300.0" width="300.0" />    
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+
+
+<AnchorPane fx:id="anchorpane"  xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.FXMLDocumentController">
+  <children>
+      <GridPane fx:id="gridpane" prefHeight="394.0" prefWidth="600.0">
+      </GridPane>
+  </children>
       
-    </children>
-     <stylesheets>
-    <URL value="@StyleCanvas.css" />
-  </stylesheets>
+ 
 </AnchorPane>
