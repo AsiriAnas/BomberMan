@@ -19,16 +19,14 @@ public class SerThread implements Runnable
     //Les canaux pour échanger les données avec le client
     protected static ObjectOutputStream _sortie;
     protected static ObjectInputStream _entree;
-    public static Joueur _joueur;
+    private Joueur _joueur;
     //Instance de la classe GestionServeur pour utliser ses méthodes
-    public static GestionServeur _serveur;
     public static Timer time;
 
     //Le constructeur avec la socket client
-  public SerThread(Socket pSocket, GestionServeur pServeur)
+  public SerThread(Socket pSocket)
   {  
     _socket=pSocket;
-    _serveur=pServeur;
     try
     {
         //On instancie les entrées et sorties
@@ -38,7 +36,7 @@ public class SerThread implements Runnable
     catch (IOException e){ 
     }
     //Une fois la sortie créée, on l'envoie dans la liste de sorties
-    _index=pServeur.addClient(_sortie);
+    _index=GestionServeur.getId();
     //On utilise la méthode de GameBard pour placer notre joueur et on récupère sa position
     int[] posJoueur= GestionServeur._boardServeur.placerJoueur(_index);
     //On instancie notre joueur avec ces positions
@@ -75,14 +73,14 @@ public class SerThread implements Runnable
                         System.out.println(commande);
                         //On lance la méthode de GameBoard pour modifier le tableau
                         //S'il a été modifié
-                        if(GestionServeur._boardServeur.game(commande)){
+                        if(GestionServeur._boardServeur.game(commande, _joueur)){
                          //On appelle la méthode pour envoyer l'objet à tout le monde
-                         _serveur.envoyer();
+                         GestionServeur.envoyer();
                         }
                     }
                     //S'il a quitté le jeu, on l'annonce et on appelle la méthode pour le supprimer
                     System.out.println("Joueur n°" + _index + " a quitté le jeu");
-                    _serveur.delClient(_index);
+                    GestionServeur.delClient(_index);
                     GestionServeur._listJoueurs.remove(_index);
                     _socket.close();
                     
@@ -97,12 +95,15 @@ public class SerThread implements Runnable
         
     }catch (Exception e){ 
     }
-
-//    try
-//    {
-//        //Puis on ferme le socket
-//        //_socket.close();   
-//    }
-//    catch (Exception e){ }
  }
+  
+    public void envoyer() {
+        try {
+            //On envoie une première fois le tableau de jeu et le joueur
+            _sortie.writeObject(GestionServeur._boardServeur);
+            _sortie.reset();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
 }

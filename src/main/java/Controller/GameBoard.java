@@ -83,17 +83,17 @@ public class GameBoard implements Serializable{
     
     //Méthode gèrant les comandes de jeu et appelant les méthodes adéguates
     //La méthode renvoie true si un changement a été fait sur le tableau
-    public boolean game(String keyPressed )
+    public boolean game(String keyPressed, Joueur pJoueur)
     { 
         boolean changement = false;
         switch(keyPressed){
             
             case "RIGHT" :
                 //Si la case ciblée est vide
-                if(_tableInterface[SerThread._joueur.getPosition_x()][SerThread._joueur.getPosition_y()+1].getType() == ETypeCase.Vide)
+                if(_tableInterface[pJoueur.getPosition_x()][pJoueur.getPosition_y()+1].getType() == ETypeCase.Vide)
                 {
                     System.out.println("Depl droite");
-                    deplacerJoueur(0,1);
+                    deplacerJoueur(0,1,pJoueur);
                     changement = true;
                 }
                 else
@@ -105,10 +105,10 @@ public class GameBoard implements Serializable{
                 
             case "LEFT" : 
                  //Si la case ciblée est vide
-                 if( _tableInterface[SerThread._joueur.getPosition_x()][SerThread._joueur.getPosition_y()-1].getType() == ETypeCase.Vide)
+                 if( _tableInterface[pJoueur.getPosition_x()][pJoueur.getPosition_y()-1].getType() == ETypeCase.Vide)
                 {
                     System.out.println("Depl gauche");
-                    deplacerJoueur(0,-1);
+                    deplacerJoueur(0,-1,pJoueur);
                     changement = true;
                 }
                 else
@@ -119,10 +119,10 @@ public class GameBoard implements Serializable{
                 break;
             case "UP" :
                 //Si la case ciblée est vide
-                if( _tableInterface[SerThread._joueur.getPosition_x()-1][SerThread._joueur.getPosition_y()].getType() == ETypeCase.Vide)
+                if( _tableInterface[pJoueur.getPosition_x()-1][pJoueur.getPosition_y()].getType() == ETypeCase.Vide)
                 {
                     System.out.println("Depl haut");
-                    deplacerJoueur(-1,0);
+                    deplacerJoueur(-1,0,pJoueur);
                     changement = true;
                 }
                 else
@@ -133,10 +133,10 @@ public class GameBoard implements Serializable{
                 break;
             case "DOWN" : 
                 //Si la case ciblée est vide
-                if( _tableInterface[SerThread._joueur.getPosition_x()+1][SerThread._joueur.getPosition_y()].getType() == ETypeCase.Vide)
+                if( _tableInterface[pJoueur.getPosition_x()+1][pJoueur.getPosition_y()].getType() == ETypeCase.Vide)
                 {
                     System.out.println("Depl bas");
-                    deplacerJoueur(1,0);
+                    deplacerJoueur(1,0,pJoueur);
                     changement = true;
                 }
                 else
@@ -148,28 +148,26 @@ public class GameBoard implements Serializable{
                 
             case "SPACE" : 
                 System.out.println("Tic Tac");
-                if(SerThread._joueur.poserBombe()) changement = true;
+                if(pJoueur.poserBombe()) changement = true;
                 break;
         }     
-       // this.addBonus();
-       // this.initialiseInterface();
-        //if(changement) this.afficheInterface();
+        //if(changement) notifyObservers(this.etat);
         
         return(changement);
     }
     
 
     //Méthode déplaçant le joueur, sur le tableau et dans l'objet joueur
-    public void deplacerJoueur(int pDepX, int pDepY){
+    public void deplacerJoueur(int pDepX, int pDepY, Joueur pJoueur){
 
         //S'il a posé une bombe au moment du déplacement, on doit garder la bombe sur le tableau
-        if( _tableInterface[SerThread._joueur.getPosition_x()][SerThread._joueur.getPosition_y()].getType()!= ETypeCase.Bombe){
-           _tableInterface[SerThread._joueur.getPosition_x()][SerThread._joueur.getPosition_y()]= new Case(ETypeCase.Vide); 
+        if( _tableInterface[pJoueur.getPosition_x()][pJoueur.getPosition_y()].getType()!= ETypeCase.Bombe){
+           _tableInterface[pJoueur.getPosition_x()][pJoueur.getPosition_y()]= new Case(ETypeCase.Vide); 
         } 
-         _tableInterface[SerThread._joueur.getPosition_x()][SerThread._joueur.getPosition_y()].setPlayerId(0);
-        _tableInterface[SerThread._joueur.getPosition_x()+pDepX][SerThread._joueur.getPosition_y()+pDepY] = new Case(ETypeCase.Personnage, SerThread._joueur.getId());
-        if(pDepX!=0) SerThread._joueur.deplacementEnX(pDepX);
-        if(pDepY!=0) SerThread._joueur.deplacementEnY(pDepY);
+         _tableInterface[pJoueur.getPosition_x()][pJoueur.getPosition_y()].setPlayerId(0);
+        _tableInterface[pJoueur.getPosition_x()+pDepX][pJoueur.getPosition_y()+pDepY] = new Case(ETypeCase.Personnage, pJoueur.getId());
+        if(pDepX!=0) pJoueur.deplacementEnX(pDepX);
+        if(pDepY!=0) pJoueur.deplacementEnY(pDepY);
 
 
     }

@@ -29,8 +29,6 @@ public class FXMLDocumentController implements Initializable {
    
 @FXML private GridPane gridpane;
 @FXML private AnchorPane anchorpane;
-//Joueur joueur = new Joueur(545158, "Donat", 5, 5);
-GameBoard game = new GameBoard(10, 10);
 //public Case _tableInterface[][];
 private int _pwidth;
 private int _pheight; 
@@ -39,7 +37,7 @@ private int _pheight;
 
 public  void displayTerrain( )
 {
-    Case [][] tableInterface = Client.boardClient.getTableInterface(); // recuperation table 
+    Case [][] tableInterface = Client._boardClient.getTableInterface(); // recuperation table 
    
     for(int lig = 0; lig < 10; lig++ )
         {

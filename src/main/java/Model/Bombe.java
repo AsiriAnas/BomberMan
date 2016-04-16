@@ -5,25 +5,27 @@
  */
 package Model;
 import Controller.*;
-import java.util.TimerTask;
+import java.io.Serializable;
 /**
  *
  * @author Donat
  */
-public class Bombe {
+public class Bombe implements Serializable{
 
     private boolean _explosed;
     private boolean _posed;
     private int _range;
     private int _posX;
     private int _posY;
+    private Joueur _possesseur;
     
     
-    public Bombe(int pRange)
+    public Bombe(int pRange, Joueur pJoueur)
     {
         _explosed = false;
         _posed = false;
         _range = pRange;
+        _possesseur= pJoueur;
     }
     
     public boolean isExplosed() {
@@ -78,9 +80,9 @@ public class Bombe {
                //On appelle méthode qui gère l'explosion
                explose();
                //On remet une bome dans la poche du joueur
-               SerThread._joueur.addBombe(1);
+               _possesseur.addBombe(1);
                //On envoie ce changement à tous les joueurs
-               SerThread._serveur.envoyer();
+               GestionServeur.envoyer();
                //Nouveau thread qui arrete l'explosion après une pause de 1 seconde
                Thread stopExplosion = new Thread() {
                     @Override
@@ -91,7 +93,7 @@ public class Bombe {
                         //On appelle la méthode qui stoppe l'affichage de l'explosion
                         stopExplosion();
                         
-                        SerThread._serveur.envoyer();
+                        GestionServeur.envoyer();
                      }
                 };
                stopExplosion.start();         

@@ -15,8 +15,8 @@ public class GestionServeur
     //On créé une liste de joueurs pour gérer l'interaction 
     public static List<Joueur>_listJoueurs= new ArrayList<Joueur>();
     //une liste stockant la sortie des sockets créés pour utiliser la méthode "envoyer()"
-    private Vector _listClients=new Vector();
-    private int _index=0;
+    public static List<SerThread> _listClients=new ArrayList<>();
+    private static int _index=0;
     public static void main(String args[])
     {
         GestionServeur gServeur = new GestionServeur();
@@ -35,42 +35,37 @@ public class GestionServeur
           while (true)
           {
             //A chaque nouveau client, on on créé un nouveau thread avec le socket créé en param
-
-            new SerThread(ss.accept(),gServeur);
+            
+            _listClients.add(new SerThread(ss.accept()));
           }
         }
         catch (Exception e) { }
     }
   
   //Méthode ajoutant un client à la liste et renvoyant son id
-  public int addClient(ObjectOutputStream pOut){
+  synchronized public static int getId(){
       _index++;
-      _listClients.addElement(pOut);
       return _index;
   }
   
   //Méthode supprimant le client de l'index reçu en paramètre
-  public void delClient(int pIndex){
+  synchronized public static void delClient(int pIndex){
      _index--;
-    if (_listClients.elementAt(pIndex) != null)
+    if (_listClients.get(pIndex) != null)
     {
-      _listClients.removeElementAt(pIndex);
+      _listClients.remove(pIndex);
     }
   }
   
   
-  //Méthode envoyant l'objet à tous les clients
-  public void envoyer(){
-      ObjectOutputStream _sortie;
-      //on parcourt toutes les sorties des sockets
-        for(int i=0; i<_listClients.size(); i++){
-            try{
-            //on utilise leur sortie pour envoyer l'objet
-           _sortie=(ObjectOutputStream)_listClients.elementAt(i);
-           _sortie.writeObject(_boardServeur);
-           _sortie.flush();
-           _sortie.reset();
-            }catch(IOException e){ }
-      }
-  }
+    //Méthode envoyant l'objet à tous les clients
+    synchronized public static void envoyer() {
+
+        //on parcourt toutes les sorties des sockets
+        for (SerThread _tClient : _listClients) {
+
+            //on utilise leur sortie pour envoyer l'objet         
+            _tClient.envoyer();
+        }
+    }
 }

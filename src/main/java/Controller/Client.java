@@ -50,21 +50,25 @@ public class Client extends Application{
             //On affiche ce tableau
             _boardClient.afficheInterface();
             
-        //Thread qui va écouter le serveur
-        Thread ListenerThread = new Thread(new Runnable() {
-            public void run() {
-                try {
-                    //il tourne en boucle attendant un éventuel changement
-                    while (true) {
-                        _boardClient = (GameBoard)_canalEntree.readObject();
-                        _boardClient.afficheInterface();
+            //Thread qui va écouter le serveur
+            Thread ListenerThread = new Thread(new Runnable() {
+                public void run() {
+                    try {
+                        //il tourne en boucle attendant un éventuel changement
+                        while (true) {
+                            try {
+                                _boardClient = (GameBoard) _canalEntree.readObject();
+                            } catch (IOException e) {
+                                System.out.println(e.getMessage());
+                            }
+                            _boardClient.afficheInterface();
+                        }
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
                     }
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
-                }
 
-            }
-        });
+                }
+            });
         ListenerThread.start();
             
         } catch (Exception ioe){

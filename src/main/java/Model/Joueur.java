@@ -5,13 +5,14 @@
  */
 package Model;
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
  *
  * @author Donat
  */
-public class Joueur {
+public class Joueur implements Serializable {
 
     private int _id;
     private String _name;
@@ -27,7 +28,7 @@ public class Joueur {
        this._position_x = pPos_x;
        this._position_y = pPos_y;
        _bombes = new ArrayList<Bombe>();
-       _bombes.add(new Bombe(1));
+       _bombes.add(new Bombe(1, this));
        _reverse = false;
        _numberLife = 3;
     }
@@ -40,7 +41,7 @@ public class Joueur {
     }
     
     public void addBombe(int pRange){
-        _bombes.add(new Bombe(pRange));
+        _bombes.add(new Bombe(pRange, this));
     }
     
     public void deplacementEnY(int dep)
