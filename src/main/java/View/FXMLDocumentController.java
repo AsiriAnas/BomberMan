@@ -71,7 +71,7 @@ public  void displayTerrain( )
                 }
                 else if( casee.getType().equals(ETypeCase.Vide) ) 
                 {
-                    casemap.setStyle("-fx-background-color: green");
+                    casemap.setStyle("-fx-background-color: olivedrab ");
                 }
                 else if( casee.getType().equals(ETypeCase.MurIncasable) ) 
                 {
