@@ -52,12 +52,18 @@ public  void displayTerrain(  )
                 if( casee.getType().equals(ETypeCase.Bombe) )
                 {
                    
-                    casemap.setStyle("-fx-background-color: black");
+                    casemap.setStyle("-fx-background-image: url('fxml/bombe.png')");
                 }
                 else if( casee.getType().equals(ETypeCase.MurCassable) )
                 {
           
                    casemap.setStyle("-fx-background-image: url('fxml/murCassable.png')");
+                    
+                }
+                else if( casee.getType().equals(ETypeCase.Explosion) )
+                {
+          
+                   casemap.setStyle("-fx-background-image: url('fxml/explosion.png')");
                     
                 }
                 else if( casee.getType().equals(ETypeCase.Vide) ) 
@@ -69,19 +75,17 @@ public  void displayTerrain(  )
                     casemap.setStyle("-fx-background-image: url('fxml/murIncassable.png')");
                   
                 }
-                else if( casee.getPlayerId()==1 ) {
-                casemap.setStyle("-fx-background-image: url('fxml/jouer1.png')");
+                else if( casee.getType().equals(ETypeCase.MurIncasable)&& casee.getPlayerId()==1 ) {
+                casemap.setStyle("-fx-background-image: url('fxml/joueur1.png')");
                 
                  } 
                 
-                 else if( casee.getPlayerId()==1 ) {
+                 else if( casee.getType().equals(ETypeCase.MurIncasable)&& casee.getPlayerId()==2 ) {
                 
-                casemap.setStyle("-fx-background-image: url('fxml/jouer.png')");
+                casemap.setStyle("-fx-background-image: url('fxml/joueur2.png')");
                  } 
-                   else if( casee.getPlayerId()==3 ) {
-                       
-                
-                casemap.setStyle("-fx-background-image: url('fxml/jouer1.png')");
+                else{     
+                casemap.setStyle("-fx-background-image: url('fxml/joueur.png')");
                  } 
                 
                 
