@@ -15,7 +15,7 @@ public enum ETypeCase {
     MurCassable("2"),
     Personnage("4"),
     Explosion("5"),
-    BonusPortee("*"),
+    BonusPortee("E"),
     Bombe("B");
     
     private String _typeTag ;  

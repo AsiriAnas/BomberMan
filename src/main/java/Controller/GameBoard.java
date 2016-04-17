@@ -6,7 +6,6 @@
 package Controller;
 
 import Model.*;
-import View.FXMLDocumentController;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.*;
@@ -22,7 +21,9 @@ public class GameBoard implements Serializable{
     private int _pwidth;
     private int _pheight; 
     private static int CASEDEPART = 0;
-    TimerHandle _timerBonus;
+    private static TimerHandle _timerBonus;
+    private int _posXbonus;
+    private int _posYbonus;
     /**
      *
      * @param pWidth
@@ -35,42 +36,66 @@ public class GameBoard implements Serializable{
     {
         this._pwidth = pWidth;
         this._pheight = pHeight;
-        _timerBonus = new TimerHandle();
+        this._timerBonus = new TimerHandle();
         this.initialiseInterface();
         this.afficheInterface();
     }
-    private void addBonus()
+    public void addBonus(int secondes)
     {
         _timerBonus.schedule( new TimerTask() {
         @Override
         public void run() {
-            addBonusType(ETypeCase.BonusPortee);
+            System.out.println("J'entre dans ajoute bonnus");
+            if( _timerBonus.isTimeSet() == false)
+            {
+                System.out.println("j'ajoute un bonus");
+                addBonusType();
+            }
         }
-      }, 10* 1000);
+      }, secondes* 1000);
+        _timerBonus.setTimeSet(true);
     }
-    private void addBonusType(ETypeCase type)
+    public void addBonusType()
     {
         Random rand = new Random();
-        int aleaX = rand.nextInt(_pwidth - 0 + 1) + 0;
-        int aleaY = rand.nextInt(_pheight - 0 + 1) + 0;
+        _posXbonus = rand.nextInt( (_pwidth-1) - 0 + 1) + 0;
+        _posYbonus = rand.nextInt( (_pheight-1) - 0 + 1) + 0;
         
         boolean isCaseEmpty = false;
         
         do
         {
-            if(_tableInterface[aleaX][aleaX].getType() != ETypeCase.Vide)
+            if(_tableInterface[_posXbonus][_posYbonus].getType() != ETypeCase.Vide)
             {
-                aleaX = rand.nextInt(_pwidth - 0 + 1) + 0;
-                aleaY = rand.nextInt(_pheight - 0 + 1) + 0;
+                _posXbonus = rand.nextInt( (_pwidth-1) - 0 + 1) + 0;
+                _posYbonus = rand.nextInt( (_pheight-1) - 0 + 1) + 0;
+        
             }
             else
             {
                 isCaseEmpty = true;
+                
+                Thread bonus = new Thread() {
+                @Override
+                public void run() {
+                    //Retardement
+                    try{
+                        Thread.sleep(1000);
+                   }catch(Exception e){}
+
+                   //On envoie ce changement à tous les joueurs
+
+                   GestionServeur._boardServeur._tableInterface[_posXbonus][_posYbonus].setType(ETypeCase.BonusPortee);
+                   GestionServeur.envoyer();
+                   }
+              };
+               bonus.start();
+               
             }
             
         }while(isCaseEmpty == false);
         
-         System.out.println("Bonus générer on : " + "( " + aleaX +" : " + aleaY +")" );
+         System.out.println("Bonus générer on : " + "( " + _posXbonus +" : " + _posYbonus +")" );
            
     }
     

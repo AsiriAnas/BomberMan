@@ -25,6 +25,7 @@ public class TimerHandle extends Timer {
     
     public void addBonus(int seconde)
     {
+        
         _time.schedule( new TimerTask() {
             public void run() {
                 System.out.println("add bonus");

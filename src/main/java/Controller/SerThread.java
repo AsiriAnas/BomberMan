@@ -75,12 +75,15 @@ public class SerThread implements Runnable
                         System.out.println(commande);
                         //On lance la méthode de GameBoard pour modifier le tableau
                         //S'il a été modifié
+                        
                         if(GestionServeur._boardServeur.game(commande, _joueur)){
                          //On appelle la méthode pour envoyer l'objet à tout le monde
-                         GestionServeur.envoyer();
+                            GestionServeur._boardServeur.addBonusType();
+                            GestionServeur.envoyer();
                             System.out.println("Je clear le controleur et reaffiche");
                             
                           }
+                     
                         
                     }
                     //S'il a quitté le jeu, on l'annonce et on appelle la méthode pour le supprimer
