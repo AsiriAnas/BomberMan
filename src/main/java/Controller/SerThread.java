@@ -78,7 +78,7 @@ public class SerThread implements Runnable
                         
                         if(GestionServeur._boardServeur.game(commande, _joueur)){
                          //On appelle la méthode pour envoyer l'objet à tout le monde
-                            GestionServeur._boardServeur.addBonusType();
+                            GestionServeur._boardServeur.addBonus(3);
                             GestionServeur.envoyer();
                             System.out.println("Je clear le controleur et reaffiche");
                             
