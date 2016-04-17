@@ -70,13 +70,13 @@ public  void displayTerrain(  )
                   
                 }
                 else if( casee.getPlayerId()==1 ) {
-                casemap.setStyle("-fx-background-image: url('fxml/jouer.png')");
+                casemap.setStyle("-fx-background-image: url('fxml/jouer1.png')");
                 
                  } 
                 
                  else if( casee.getPlayerId()==1 ) {
                 
-                casemap.setStyle("-fx-background-image: url('fxml/jouer1.png')");
+                casemap.setStyle("-fx-background-image: url('fxml/jouer.png')");
                  } 
                    else if( casee.getPlayerId()==3 ) {
                        
