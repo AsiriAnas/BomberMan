@@ -1,8 +1,6 @@
 
 package Controller;
 import Model.Joueur;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.net.*;
 import java.util.*;
 
@@ -63,7 +61,6 @@ public class GestionServeur
 
         //on parcourt toutes les sorties des sockets
         for (SerThread _tClient : _listClients) {
-
             //on utilise leur sortie pour envoyer l'objet         
             _tClient.envoyer();
         }

@@ -14,8 +14,8 @@ import java.util.*;
  */
 public class Joueur implements Serializable {
 
+
     private int _id;
-    private String _name;
     private int _position_x;
     private int _position_y;
     private List<Bombe> _bombes;
@@ -34,6 +34,9 @@ public class Joueur implements Serializable {
     }
 
   
+    public int getNumberLife() {
+        return _numberLife;
+    }
     
     public void deplacementEnX(int dep)
     {
@@ -61,9 +64,6 @@ public class Joueur implements Serializable {
         return _id;
     }
 
-    public String getName() {
-        return _name;
-    }
 
     public int getPosition_x() {
         return _position_x;
@@ -75,10 +75,6 @@ public class Joueur implements Serializable {
     
     public void setId(int _id) {
         this._id = _id;
-    }
-
-    public void setName(String _name) {
-        this._name = _name;
     }
 
     public void setPosition_x(int _position_x) {
