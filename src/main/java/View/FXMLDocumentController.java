@@ -12,6 +12,10 @@ import Model. *;
 //import java.util.ResourceBundle;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -27,22 +31,15 @@ import javafx.scene.layout.GridPane;
  */
 public class FXMLDocumentController implements Initializable {
    
-@FXML private GridPane gridpane;
-@FXML private AnchorPane anchorpane;
-//public Case _tableInterface[][];
-private int _pwidth;
-private int _pheight; 
+@FXML public GridPane gridpane;
 
-
-
-public  void displayTerrain( )
+public  void displayTerrain(  )
 {
-    Case [][] tableInterface = Client._boardClient.getTableInterface(); // recuperation table 
-   
-    for(int lig = 0; lig < 10; lig++ )
+    Case [][] tableInterface = Client._boardClient.getTableInterface();
+    
+    for(int lig = 0; lig < Client._boardClient.getPheight() ; lig++ )
         {
-            for( int col = 0; col< 10; col++)
-                
+            for( int col = 0; col< Client._boardClient.getPwidth() ; col++)
             {
                 Label casemap= new Label();
                 Case casee = tableInterface[lig][col];
@@ -70,20 +67,18 @@ public  void displayTerrain( )
                 casemap.setMinHeight(35);
                 casemap.setMinWidth(35);
                 casemap.setText("");
-                 gridpane.add(casemap, col, lig);
-               
-            }
                 
-           
-           
-       
-    }    
+                gridpane.add(casemap, col, lig);
             }
+    }    
+}
            
        @Override
     public void initialize(URL url, ResourceBundle rb) {
-      //afficheInterface();
-        displayTerrain();
+      displayTerrain();
+      System.out.println("initialisation interface");
     }
+    
 
+ 
 }

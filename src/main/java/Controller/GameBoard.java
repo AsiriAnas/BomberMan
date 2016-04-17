@@ -6,6 +6,7 @@
 package Controller;
 
 import Model.*;
+import View.FXMLDocumentController;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.*;
@@ -20,6 +21,8 @@ public class GameBoard implements Serializable{
     public Case _tableInterface[][];
     private int _pwidth;
     private int _pheight; 
+    private static int CASEDEPART = 0;
+    TimerHandle _timerBonus;
     /**
      *
      * @param pWidth
@@ -31,29 +34,19 @@ public class GameBoard implements Serializable{
     public GameBoard(int pWidth, int pHeight)
     {
         this._pwidth = pWidth;
-        this._pheight = pHeight;      
+        this._pheight = pHeight;
+        _timerBonus = new TimerHandle();
         this.initialiseInterface();
         this.afficheInterface();
     }
-    
-    public Case[][] getTableInterface()
-    {
-        return _tableInterface;
-    }
     private void addBonus()
     {
-        
-//        // Bonus alonge la portee de la bombe (+1)
-//
-//        _timerBonus.schedule( new TimerTask() {
-//        @Override
-//        public void run() {
-//            
-//            
-//            
-//            
-//        }
-//      }, 10000);
+        _timerBonus.schedule( new TimerTask() {
+        @Override
+        public void run() {
+            addBonusType(ETypeCase.BonusPortee);
+        }
+      }, 10* 1000);
     }
     private void addBonusType(ETypeCase type)
     {
@@ -259,5 +252,19 @@ public class GameBoard implements Serializable{
             test=true;
         }
         return test;
+    }
+    
+
+    public int getPwidth() {
+        return _pwidth;
+    }
+
+    public int getPheight() {
+        return _pheight;
+    }
+    
+    public Case[][] getTableInterface()
+    {
+        return _tableInterface;
     }
 }

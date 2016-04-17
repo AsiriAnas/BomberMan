@@ -15,6 +15,7 @@ import java.util.ResourceBundle;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
@@ -32,6 +33,7 @@ public class Client extends Application{
     protected static ObjectInputStream _canalEntree;
     public static GameBoard _boardClient;
     public static Joueur _joueur;
+    public static Group _root = new Group();
     
    
     public static void main(String[] args) throws ClassNotFoundException {
@@ -64,7 +66,7 @@ public class Client extends Application{
                             _boardClient.afficheInterface();
                         }
                     } catch (Exception e) {
-                        System.out.println(e.getMessage());
+                        System.out.println("Listener Thread error : " + e.getMessage());
                     }
 
                 }
@@ -73,6 +75,7 @@ public class Client extends Application{
             
         } catch (Exception ioe){
             ioe.printStackTrace();
+            System.out.println("Main Error " + ioe.getMessage());
         }
         
         Application.launch(Client.class, args);
@@ -83,12 +86,12 @@ public class Client extends Application{
     public void start(Stage stage) throws Exception {
         
     //On créé l'interface graphique
-    Parent root = FXMLLoader.load(getClass().getResource("/fxml/FXMLInterface.fxml"));
+    Parent parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLInterface.fxml"));
     stage.setTitle("Bomber Woman");
     //Le joueur est créé à partir de l'id reçu
-    //joueur = new Joueur(idJoueur, 5, 5);   
-    
-    Scene scene = new Scene(root);
+    //joueur = new Joueur(idJoueur, 5, 5);
+    _root.getChildren().add(parent);
+    Scene scene = new Scene(_root);
    
     //Cette partie gère l'interaction avec l'utilisateur
     scene.setOnKeyPressed(new EventHandler<KeyEvent>(){
@@ -96,6 +99,7 @@ public class Client extends Application{
             //On envoie le code de la touche appuyée au serveur
             try {
                 _canalSortie.writeObject(key.getCode().toString());
+                 refreshScreen();
             } catch (IOException ioe){
                 ioe.printStackTrace();
             }
@@ -116,6 +120,17 @@ public class Client extends Application{
       });
     
     }
-
     
+    public void refreshScreen()
+    {
+        try
+        {
+         Parent parentreload = FXMLLoader.load(getClass().getResource("/fxml/FXMLInterface.fxml"));
+         Client._root.getChildren().add(parentreload);
+        }
+        catch(Exception ex)
+        {
+            System.out.println("Refresh Gui Failed :" + ex.getMessage() );
+        }
+    }
 }

@@ -3,6 +3,8 @@ import Model.Joueur;
 import java.net.*;
 import java.io.*;
 import java.util.*;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 
 
 // Classe associé à chaque client
@@ -76,7 +78,10 @@ public class SerThread implements Runnable
                         if(GestionServeur._boardServeur.game(commande, _joueur)){
                          //On appelle la méthode pour envoyer l'objet à tout le monde
                          GestionServeur.envoyer();
-                        }
+                            System.out.println("Je clear le controleur et reaffiche");
+                            
+                          }
+                        
                     }
                     //S'il a quitté le jeu, on l'annonce et on appelle la méthode pour le supprimer
                     System.out.println("Joueur n°" + _index + " a quitté le jeu");
