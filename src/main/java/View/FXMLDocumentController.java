@@ -50,16 +50,15 @@ public  void displayTerrain(  )
                 Case casee = tableInterface[lig][col];
      
                 if( casee.getType().equals(ETypeCase.Bombe) )
-                {                  
-                    casemap.setStyle("-fx-background-image: url('fxml/bombe.png')");
+                {
+                   
+                    casemap.setStyle("-fx-background-color: black");
                 }
                 else if( casee.getType().equals(ETypeCase.MurCassable) )
-                {         
-                   casemap.setStyle("-fx-background-image: url('fxml/murCassable.png')");                    
-                }
-                else if( casee.getType().equals(ETypeCase.Explosion) )
-                {         
-                   casemap.setStyle("-fx-background-image: url('fxml/explosion.png')");                    
+                {
+          
+                   casemap.setStyle("-fx-background-image: url('fxml/murCassable.png')");
+                    
                 }
                 else if( casee.getType().equals(ETypeCase.Vide) ) 
                 {
@@ -67,18 +66,23 @@ public  void displayTerrain(  )
                 }
                 else if( casee.getType().equals(ETypeCase.MurIncasable) ) 
                 {
-                    casemap.setStyle("-fx-background-image: url('fxml/murIncassable.png')");  
+                    casemap.setStyle("-fx-background-image: url('fxml/murIncassable.png')");
+                  
                 }
-                else if(casee.getType().equals(ETypeCase.Personnage)&& casee.getPlayerId()==1 ) {
-                    casemap.setStyle("-fx-background-image: url('fxml/joueur1.png')");
-                 } 
-                else if(casee.getType().equals(ETypeCase.Personnage)&& casee.getPlayerId()==2) {         
-                    casemap.setStyle("-fx-background-image: url('fxml/joueur2.png')");
-                 }
-                else{
+                else if( casee.getPlayerId()==1 ) {
+                casemap.setStyle("-fx-background-image: url('fxml/jouer.png')");
                 
-                    casemap.setStyle("-fx-background-image: url('fxml/joueur.png')");
-                 }
+                 } 
+                
+                 else if( casee.getPlayerId()==1 ) {
+                
+                casemap.setStyle("-fx-background-image: url('fxml/jouer1.png')");
+                 } 
+                   else if( casee.getPlayerId()==3 ) {
+                       
+                
+                casemap.setStyle("-fx-background-image: url('fxml/jouer1.png')");
+                 } 
                 
                 
                     /*else if( casee.getType().equals(ETypeCase.Personnage) )

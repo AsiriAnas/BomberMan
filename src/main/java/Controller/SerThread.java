@@ -70,7 +70,7 @@ public class SerThread implements Runnable
                 try {
                     //Ce thread tourne en boucle pour écouter une éventuelle commande
                     //tant que l'utilisateur n'a pas quitté
-                    while (!(commande.equals("QUIT")||_joueur.getNumberLife()==0)) {
+                    while (!commande.equals("QUIT")) {
                         commande = (String) _entree.readObject();
                         System.out.println(commande);
                         //On lance la méthode de GameBoard pour modifier le tableau
