@@ -54,6 +54,11 @@ public  void displayTerrain(  )
                    
                     casemap.setStyle("-fx-background-image: url('fxml/bombe.png')");
                 }
+                if( casee.getType().equals(ETypeCase.BonusPortee) )
+                {
+                   
+                   casemap.setStyle("-fx-background-image: url('fxml/bonus.png')");
+                }
                 else if( casee.getType().equals(ETypeCase.MurCassable) )
                 {
           
